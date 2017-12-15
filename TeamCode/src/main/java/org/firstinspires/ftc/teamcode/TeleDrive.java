@@ -55,6 +55,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class TeleDrive extends OpMode
 {
     // Declare OpMode members.
+    private DcMotor arm_motor;
+    private double up_arm;
+    private double down_arm;
+    private double arm_power;
+    private DcMotor shrink_motor;
+    private double shrink_power;
+    private DcMotor roller_gripper_motor;
+    private double emitter;
+    private double receptor;
+    private double roller_gripper_power
     //private ElapsedTime runtime = new ElapsedTime(); // Used as an ndecation of runtime for some process that you may need.
 
     /*
@@ -62,6 +72,20 @@ public class TeleDrive extends OpMode
      */
     @Override
     public void init() {
+        arm_motor = hardwareMap.dcMotor.get("arm_motor");
+        up_arm = gamepad2.dpad_up;
+        down_arm = gamepad2.dpad_down;
+        arm_power = 0;
+        shrink_motor = hardwareMap.dcMotor.get("shrink_motor");
+        shrink_button = gamepad2.x;
+        expand_button = gamepad2.b;
+        shrink_power = 0;
+        roller_gripper_motor = hardwareMap.dcMotor.get("roller_gripper_motor");
+        roller_gripper_power = 0;
+        emitter = gamepad2.y;
+        receptor = gamepad2.a;
+
+
         //telemetry.addData("Status", "Initialized");//Using Telemetry lets you tha abilty to show live important data to the drive through 		the driver station. Customie it and use it wisely
 	/*
 	 *Here goes all the code that requires an initialization once the driver hits INIT button on the DS.
@@ -93,7 +117,34 @@ public class TeleDrive extends OpMode
      */
     @Override
     public void loop() {
-	//YOUR CODE GOES HERE!
+        if (up_arm) :{
+            arm_power += 0.1;
+            arm_motor.setPower(arm_power);
+        }
+        if (down_arm):{
+            arm_power -= 0.1;
+            arm_motor.setPower(arm_power);
+        }
+        if (expand_button):{
+            shrink_power -= 0.1;
+            arm_motor.setPower(shrink_power);
+        }
+        if (shrink_button):{
+            shrink_power += 0.1;
+            arm_motor.setPower(shrink_power);
+        }
+        if (receptor):{
+            roller_gripper_power -= 0.1;
+            arm_motor.setPower(roller_gripper_power);
+        }
+        if (emitter):{
+            roller_gripper_power += 0.1;
+            arm_motor.setPower(roller_gripper_power);
+        }
+
+
+
+        //YOUR CODE GOES HERE!
 
         // Show the elapsed game time and wheel power.
         //telemetry.addData("Status", "Run Time: " + runtime.toString());
